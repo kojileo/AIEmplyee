@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('AIラブコネクト'),
+        title: Text('生成AI基盤アプリ'),
       ),
       body: Stack(
         children: [
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/game_title.png',
+                    'assets/images/ai_title.png',
                     width: screenWidth, // 画面幅の1/2のサイズで画像を表示
                     // heightも必要に応じて設定することができます
                   ),
@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => MatchScreen()));
                     },
-                    child: Text('ゲームスタート'),
+                    child: Text('スタート'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pink, // ここを修正
                       foregroundColor: Colors.white,

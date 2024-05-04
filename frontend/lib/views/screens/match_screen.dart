@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'chat_screen.dart'; // チャット画面のインポートを忘れずに
+import 'package:url_launcher/url_launcher.dart';
 
 class MatchScreen extends StatefulWidget {
   @override
@@ -9,12 +9,16 @@ class MatchScreen extends StatefulWidget {
 class _MatchScreenState extends State<MatchScreen> {
   int currentImageIndex = 0; // 現在表示している画像のインデックス
   List<String> imagePaths = [
-    'assets/images/girl1.png', // 画像のファイル名を適宜変更してください
-    'assets/images/girl2.png',
-    'assets/images/girl3.png',
-    'assets/images/girl4.png',
-    'assets/images/girl5.png',
-    // 他にも画像がある場合はリストに追加
+    'assets/images/web.png',
+    'assets/images/youtube.png',
+    'assets/images/pdf.png',
+  ];
+
+  // 各画像に対応するエンドポイントURL
+  List<String> serviceEndpoints = [
+    'https://api.example.com/web-service',
+    'https://api.example.com/youtube-service',
+    'https://api.example.com/pdf-service',
   ];
 
   void _nextImage() {
@@ -23,21 +27,20 @@ class _MatchScreenState extends State<MatchScreen> {
     });
   }
 
-  void _goToChat() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ChatScreen(
-              imagePath: imagePaths[currentImageIndex],
-              currentIndex: currentImageIndex)), // 画像パスと現在のインデックスを渡す
-    );
+  void _goToChat() async {
+    final url = serviceEndpoints[currentImageIndex];
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('マッチング'),
+        title: Text('生成AIサービス選択'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +51,7 @@ class _MatchScreenState extends State<MatchScreen> {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text('この女の子とマッチしますか？', textAlign: TextAlign.center),
+            child: Text('この生成AIサービスを選択しますか？', textAlign: TextAlign.center),
           ),
           ButtonBar(
             alignment: MainAxisAlignment.center,
@@ -57,7 +60,7 @@ class _MatchScreenState extends State<MatchScreen> {
                 onPressed: _goToChat,
                 child: Text('Yes'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
+                  backgroundColor: const Color.fromARGB(255, 30, 233, 203),
                 ),
               ),
               ElevatedButton(
